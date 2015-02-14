@@ -1,0 +1,26 @@
+{
+  "name": "yalb",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Fuzzyma/yalb",
+  "authors": [
+    "Ulrich-Matthias Schäfer"
+  ],
+  "description": "Yet Another LighBox. Easy to use and out of the Box in pure JS",
+  "main": [
+    "./src/yalb.js",
+    "./src/yalb.css"
+  ],
+  "keywords": [
+    "vanilla",
+    "lightbox",
+    "yalb"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

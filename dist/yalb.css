@@ -1,0 +1,191 @@
+html, body {
+    margin:0;
+}
+
+/* wrapper */
+.yalb_wrapper {
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    background:rgba(0,0,0,0.5);
+    opacity:1;
+    transition:opacity 0.4s;
+    /* Comment in to disable yalb-closing by clicking on the wrapper */
+    pointer-events:none;
+}
+
+/* container */
+.yalb {
+    margin:0 auto 0;
+    border:5px solid #fff;
+    border:5px solid rgba(255, 255, 255, 0.8);
+    box-shadow:0 0 5px rgba(0, 0, 0, 0.8);
+    width:325px;
+    height:37px;
+    position:relative;
+    bottom:-35%;
+    background:#fff;
+    border-radius:5px;
+    overflow:hidden;
+    font-family:Arial;
+    transition:width 0.4s, height 0.4s, bottom 0.4s;
+    /* Comment in to disable yalb-closing by clicking on the wrapper */
+    pointer-events:auto;
+}
+
+/* prev / next / close */
+.yalb span.prev, .yalb span.next, .yalb span.close {
+    text-decoration:none;
+    color:#000;
+    line-height:100%;
+    transition:text-shadow 0.1s 0.02s ease-In, opacity 0.1s ease-In;
+    display:block;
+    cursor:pointer;
+}
+
+.yalb span.prev, .yalb span.next {
+    font-size:35px;
+    z-index:3;
+    position:relative;
+    bottom:-20%;
+    margin-top:-17px;
+    top:20%;
+}
+
+.yalb span.prev {
+    background:#fff; /* IE 8/9 */
+    background:linear-gradient(to right, #fff 0%, rgba(255,255,255,0)) 100%;
+    left:-1px;
+    float:left;
+    padding:10px 15px 10px 20px;
+    border-radius:0 5px 5px 0;
+}
+
+.yalb span.next {
+    background:#fff; /* IE 8/9 */
+    background:linear-gradient(to left, #fff 0%, rgba(255,255,255,0)) 100%;
+    right:-1px;
+    float:right;
+    padding:10px 20px 10px 15px;
+    border-radius:5px 0 0 5px;
+}
+
+.yalb span.prev:hover, .yalb span.next:hover, .yalb span.close:hover {
+    text-shadow:0 0 3px #000;
+}
+
+.yalb span.prev:before {
+    content:'\21DA';
+}
+
+.yalb span.next:before {
+    content:'\21DB';
+}
+
+.yalb span.close {
+    background:white;
+    z-index:4;
+    position:absolute;
+    border-radius:0 0 0 5px;
+    padding:10px;
+    top:0;
+    right:0;
+    font-size:20px;
+    opacity:0;
+}
+
+.yalb:hover span.close, .yalb:hover span.prev, .yalb:hover span.next {
+    opacity:1;
+}
+
+.yalb span.close:before {
+    content:'\2716';
+}
+
+/* error-msg */
+.yalb strong.error {
+    position:absolute;
+    width:100%;
+    display:block;
+    z-index:1;
+    top:20%;
+    text-align:center;
+    margin-top:-2px;
+    box-sizing:border-box;
+    padding:0 48px;
+    opacity:1;
+    transition:opacity 0.4s;
+}
+
+.yalb strong.error:before {
+    content:'Image could not be loaded';
+}
+
+/* image */
+.yalb img.image {
+    height:100%;
+    width:100%;
+    display:block;
+    position:absolute;
+    z-index:1;
+    top:0;
+    left:0;
+    opacity:1;
+    transition:opacity 0.4s;
+}
+
+/* loader-icon */
+.yalb span.loader {
+    position:absolute;
+    margin:0 auto;
+    z-index:2;
+    bottom:50%;
+    margin-bottom:-14px;
+    left:50%;
+    margin-left:-10px;
+    display:block;
+    border:3px solid rgba(200,200,200,0.8);
+    animation: loading 1.1s infinite linear;
+    height:20px;
+    width:20px;
+    border-radius:50%;
+}
+
+@keyframes loading {
+    50% {
+        height:10px;
+        width:10px;
+        margin-bottom:-7px;
+        margin-left:-5px;
+    }
+}
+
+.yalb_wrapper.fadeOut, .yalb_wrapper .fadeOut{
+    opacity:0 !important;
+}
+
+.yalb .hide{
+    display:none !important;
+}
+
+
+/*
+@keyframes loading {
+    0%,
+    100%{
+        border-color:white transparent transparent transparent;
+    }
+    
+    25% {
+        border-color:transparent white transparent transparent;
+    }
+    
+    50% {
+        border-color:transparent transparent white transparent;
+    }
+    
+    75% {
+        border-color:transparent transparent transparent white;
+    }
+}*/
