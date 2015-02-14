@@ -4,7 +4,11 @@ Yet Another LightBox
 Yalb only uses pure Javascript. All animations are done using css-transition or animation.
 If you would like to go with a jQuery-version take a look at [jquery.yalb][jqueryyalb].
 
+Note that Yalb (Vanilla) is using Javascript-Functions which are only available in modern browsers.
+Make sure to use [Polyfills][poly] for `classList`, `dataset` and `CustomEvent` to make it work in IE 8 and later.
+
 [jqueryyalb]: https://github.com/Fuzzyma/jquery.yalb
+[poly]: https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
