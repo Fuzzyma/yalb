@@ -77,7 +77,8 @@ module.exports = function(grunt) {
     },
     bumper: {
       options: {
-        files: ['package.json', 'bower.json']
+        files: ['package.json', 'bower.json'],
+        tasks: ['bump']
       }
     },
   });
@@ -94,5 +95,6 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', ['jshint', 'clean', 'copy', 'concat', 'uglify', 'cssmin']);
+  grunt.registerTask('bump', ['clean', 'copy', 'concat', 'uglify', 'cssmin']);
 
 };
