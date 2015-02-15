@@ -12,7 +12,7 @@ html, body {
     opacity:1;
     transition:opacity 0.4s;
     /* Comment in to disable yalb-closing by clicking on the wrapper */
-    pointer-events:none;
+    /* pointer-events:none; */
 }
 
 /* container */
@@ -31,7 +31,7 @@ html, body {
     font-family:Arial;
     transition:width 0.4s, height 0.4s, bottom 0.4s;
     /* Comment in to disable yalb-closing by clicking on the wrapper */
-    pointer-events:auto;
+    /* pointer-events:auto; */
 }
 
 /* prev / next / close */

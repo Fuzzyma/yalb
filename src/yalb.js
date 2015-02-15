@@ -9,9 +9,19 @@
 /* jshint -W083 */
 (function(){
 
-    var instance = null;
+    // We define this helper-functions so we dont rely on teh classList-Feature
+    function addClass(el, className){
+        removeClass(el, className);
+        el.className += ' '+className;
+    }
 
-    var yalb = function(list, options){
+    function removeClass(el, className){
+        el.className = el.className.replace( new RegExp('(\\s|^)'+className+'(\\s|$)') , '' );
+    }
+
+    var supportsTransitions = 'transition' in document.createElement('p').style,
+        instance = null,
+        yalb = function(list, options){
 
         // We create an instance of this plugin
         if(!(this instanceof yalb)){
@@ -24,11 +34,11 @@
 
         var settings = {};
         options = options || {};
-        
+
         for(var i in yalb.defaults){
             settings[i] = options[i] || yalb.defaults[i];
         }
-        
+
         var images = [],
             current = settings.current,
             container = document.createElement('div'),
@@ -51,7 +61,6 @@
             open,
             close;
 
-
         // Helper, gives a span with added class and click-event
         createSpan = function(name){
             var span = document.createElement('span');
@@ -62,32 +71,32 @@
 
         // hides the loader-icon
         hideLoader = function(){
-            container.querySelector('.loader').classList.add('fadeOut');
-            container.querySelector('.error').classList.add('fadeOut');
+            addClass(container.querySelector('.loader'),'fadeOut');
+            addClass(container.querySelector('.error'),'fadeOut');
         };
 
         // hides or shows next and prev-button
         hideShowButtons = function(){
             if(settings.loop && list.length > 1){ return; }
 
-            if(current === list.length - 1){ container.querySelector('.next').classList.add('hide'); }
-            else{ container.querySelector('.next').classList.remove('hide'); }
+            if(current === list.length - 1){ addClass(container.querySelector('.next'), 'hide'); }
+            else{ removeClass(container.querySelector('.next'), 'hide'); }
 
-            if(current === 0){ container.querySelector('.prev').classList.add('hide'); }
-            else{ container.querySelector('.prev').classList.remove('hide'); }
+            if(current === 0){ addClass(container.querySelector('.prev'), 'hide'); }
+            else{ removeClass(container.querySelector('.prev'), 'hide'); }
         };
 
         // displays the loader-icon
         showLoader = function(){
-            container.querySelector('span.loader').classList.remove('fadeOut');
+            removeClass(container.querySelector('.loader'), 'fadeOut');
         };
 
         // shows the error-msg
         showError = function(){
 
-            container.querySelector('img.image').classList.add('fadeOut');
-            container.querySelector('span.loader').classList.add('fadeOut');
-            container.querySelector('strong.error').classList.remove('fadeOut');
+            addClass(container.querySelector('.image'), 'fadeOut');
+            addClass(container.querySelector('.loader'), 'fadeOut');
+            removeClass(container.querySelector('.error'), 'fadeOut');
 
             loadImg([current-1, current+1]);
 
@@ -96,18 +105,18 @@
         // shows the image
         showImg = function(e){
             if(e && e.target !== container && e.propertyName !== 'width'){ return; }
-        
+
             var img = images[current].img;
             img.className = 'image fadeOut';
-            
+
             img.addEventListener('transitionend', function(){
                 if(window.getComputedStyle(img).getPropertyValue('opacity') == 0){
                     container.removeChild(img);
                 }
             }, false);
-            
+
             container.appendChild(img);
-            setTimeout(function(){ img.classList.remove('fadeOut'); }, 0); // Call immediately
+            setTimeout(function(){ removeClass(img,'fadeOut'); }, 0); // Call immediately
             container.dispatchEvent(new CustomEvent('change', {detail:{index:current}}));
             loadImg([current-1, current+1]);
         };
@@ -120,13 +129,7 @@
             // check if a data-attribute was specified
             if(obj instanceof Node && settings.src.indexOf('data-') === 0){
 
-                // normalize data string and return the entry of the dataset
-                return obj.dataset[
-                    settings.src.substr(5).split('-').map(function(el, index){
-                        if(!index){ return el; }
-                        return el.charAt(0).toUpperCase() + el.slice(1);
-                    }).join('')
-                ];
+                return obj.getAttribute(settings.src);
 
             }
 
@@ -190,7 +193,7 @@
 
             // make sure that new image is not the same as current, fade Out the old Image
             if(container.querySelector('.image') && container.querySelector('.image').src === images[current].img.src){ return; }
-            if(container.querySelector('.image')){ container.querySelector('.image').classList.add('fadeOut'); }
+            if(container.querySelector('.image')){ addClass(container.querySelector('.image'), 'fadeOut'); }
 
             var ratio = images[current].img.naturalWidth / images[current].img.naturalHeight,
                 height = images[current].img.naturalHeight,
@@ -208,15 +211,18 @@
                 width = maxWidth;
                 height = maxWidth / ratio;
             }
-            
+
             // when image-dimension didn't change to much ( < 1px) don't animate
-            if(Math.abs(parseInt(window.getComputedStyle(container).getPropertyValue('width')) - width) > 1|| 
+            if(Math.abs(parseInt(window.getComputedStyle(container).getPropertyValue('width')) - width) > 1||
                Math.abs(parseInt(window.getComputedStyle(container).getPropertyValue('height')) - height) > 1){
                 container.style.width = width+'px';
                 container.style.height = height+'px';
                 container.style.bottom = ((height - window.innerHeight) / 2) + 'px';
-                
+
                 // transitionend: showImg();
+                if(!supportsTransitions){
+                    showImg();
+                }
             }else{
                 showImg();
             }
@@ -272,14 +278,15 @@
 
         // close yalb
         close = function(){
-            wrapper.classList.add('fadeOut');
+            addClass(wrapper,'fadeOut');
             // transitionend: removeEventListener for cEvents and wEvents and close
+            if(!supportsTransitions){ wEvents.transitionend(); }
         };
 
         // open yalb if not already open
         open = function(){
             document.querySelector('body').appendChild(wrapper);
-            setTimeout(function(){ wrapper.classList.remove('fadeOut'); }, 0); // immediately
+            setTimeout(function(){ removeClass(wrapper,'fadeOut'); }, 0); // immediately
             changeImg();
         };
 
@@ -291,36 +298,36 @@
             open: open,
             transitionend: showImg
         };
-        
+
         var wEvents = {
             click: function(e){
                 if(e.target === wrapper){ container.dispatchEvent(new Event('close')); }
             },
             transitionend: function(e){
-                if(e.target === wrapper && window.getComputedStyle(wrapper).getPropertyValue('opacity') == 0){
-                    
+                if(!e || e.target === wrapper && window.getComputedStyle(wrapper).getPropertyValue('opacity') == 0){
+
                     // Remove all handlers from container
                     for(var i in cEvents){
                         container.removeEventListener(i, cEvents[i], false);
                     }
-                
+
                     // Remove all handlers from wrapper
                     for(var i in wEvents){
                         wrapper.removeEventListener(i, wEvents[i], false);
                     }
-                    
+
                     // Remove wrapper from dom
                     wrapper.parentNode.removeChild(wrapper);
                 }
             }
         };
-        
+
         var loader = document.createElement('span'),
             error = document.createElement('strong');
-        
+
         loader.className = 'loader fadeOut';
         error.className = 'error fadeOut';
-        
+
         // add prev/next-links, loader and error-msg
         container.className = settings['class'];
         container.appendChild(createSpan('prev'));
@@ -337,7 +344,7 @@
         for(var i in cEvents){
             container.addEventListener(i, cEvents[i], false);
         }
-        
+
         // Bind events to wrapper
         for(var i in wEvents){
             wrapper.addEventListener(i, wEvents[i], false);
@@ -365,7 +372,7 @@
             open();
             changeImg();
         }
-        
+
         return yalb;
     };
 
@@ -416,4 +423,18 @@
 
     window.yalb = yalb;
 
+})();
+
+(function () {
+    function CustomEvent ( event, params ) {
+        params = params || { bubbles: false, cancelable: false, detail: undefined };
+        var evt = document.createEvent( 'CustomEvent' );
+        evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+        return evt;
+    }
+
+    CustomEvent.prototype = window.Event.prototype;
+
+    window.CustomEvent = CustomEvent;
+    window.Event = CustomEvent;
 })();

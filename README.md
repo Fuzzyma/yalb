@@ -4,17 +4,18 @@ Yet Another LightBox
 Yalb only uses pure Javascript. All animations are done using css-transition or animation.
 If you would like to go with a jQuery-version take a look at [jquery.yalb][jqueryyalb].
 
-Note that Yalb (Vanilla) is using Javascript-Functions which are only available in modern browsers.
-Make sure to use [Polyfills][poly] for `classList`, `dataset` and `CustomEvent` to make it work in IE 8 and later.
+- Note that Yalb (Vanilla) is using Javascript-Functions which are only available in modern browsers.  
+- The Script detects transition-support and does a fallback to no animation at all (e.g. IE9)
+- IE supports no CustomEvents. Thats why a polyfill is added to the script
 
 [jqueryyalb]: https://github.com/Fuzzyma/jquery.yalb
-[poly]: https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 Or run 
 	
-	bower install yalb
+	bower install vanilla.yalb
+	// yalb was already taken
 
 [min]: https://raw.githubusercontent.com/Fuzzyma/yalb/master/dist/yalb.min.js
 [max]: https://raw.githubusercontent.com/Fuzzyma/yalb/master/dist/yalb.js
@@ -33,7 +34,7 @@ Include yalb in your web page:
 	    'img4.jpg',
 	    'img5.jpg'
 	  ]
-	
+
 	  yalb(images);
 
       // for other possibilities to call yalb see below
