@@ -154,6 +154,7 @@ You can listen to the following Events:
 - `next` - When next-button is pressed
 - `prev` - When prev-button is pressed
 - `show` - When show is called
-###
+
+
     var yalb_instance = yalb.get(); // or yalb_instance = yalb(); or next().next()
     yalb_instance.addEventListener('next', function(){ /* do stuff */ }, false);
