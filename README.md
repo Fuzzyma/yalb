@@ -138,7 +138,7 @@ You can change the default values for the whole page by assigning to `yalb.defau
 You can control the behavior of yalb with the following methods
 
 - `yalb.open()` - Opens yalb when still not open
-- `yalb.close0()` - Close yalb; same as hitting the close-button
+- `yalb.close()` - Close yalb; same as hitting the close-button
 - `yalb.next()` - Next Image; same as hitting the next-button
 - `yalb.prev()` - Previous Image; same as hitting the prev-button
 - `yalb.show(index)` - Changes to the image on position `index`
@@ -155,6 +155,8 @@ You can listen to the following Events:
 - `prev` - When prev-button is pressed
 - `show` - When show is called
 
+
+#### Example
 
     var yalb_instance = yalb.get(); // or yalb_instance = yalb(); or next().next()
     yalb_instance.addEventListener('next', function(){ /* do stuff */ }, false);
