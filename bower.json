@@ -7,8 +7,8 @@
   ],
   "description": "Yet Another LighBox. Easy to use and out of the Box in pure JS",
   "main": [
-    "./src/yalb.js",
-    "./src/yalb.css"
+    "./dist/yalb.js",
+    "./dist/yalb.css"
   ],
   "keywords": [
     "vanilla",
