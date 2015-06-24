@@ -9,6 +9,7 @@ html, body {
     height:100%;
     top:0;
     background:rgba(0,0,0,0.5);
+    z-index:10000;
     opacity:1;
     transition:opacity 0.4s;
     /* Comment in to disable yalb-closing by clicking on the wrapper */
@@ -176,15 +177,15 @@ html, body {
     100%{
         border-color:white transparent transparent transparent;
     }
-    
+
     25% {
         border-color:transparent white transparent transparent;
     }
-    
+
     50% {
         border-color:transparent transparent white transparent;
     }
-    
+
     75% {
         border-color:transparent transparent transparent white;
     }
